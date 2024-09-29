@@ -7,16 +7,20 @@ const path = require('path');
 const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const GLOBAL_STATE_WRAP_TOGGLE = 'wrap-toggle';
+const GLOBAL_STATE_THEME = 'theme';
 
 let panel;
-let theme = 'default';
+let theme;
+let wrap;
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+  theme = context.globalState.get(GLOBAL_STATE_THEME, 'default');
+  wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
+
   const disposable = vscode.commands.registerCommand('extension.prettifyJSON', function () {
     // The code you place here will be executed every time your command is executed
     panel = createWebviewPanel(context);
@@ -73,6 +77,11 @@ function createWebviewPanel(context) {
       switch (message.command) {
         case 'themeChanged':
           theme = message.theme;
+          context.globalState.update(GLOBAL_STATE_THEME, theme);
+          break;
+        case 'wrapChanged':
+          wrap = message.wrap;
+          context.globalState.update(GLOBAL_STATE_WRAP_TOGGLE, wrap);
           break;
         case 'logMessage':
           console.log(message.text);
@@ -126,6 +135,10 @@ function getWebviewContent(content, theme) {
 
         wrapToggle.addEventListener('change', (e) => {
           codeElement.style.whiteSpace = e.target.checked ? 'pre-wrap' : 'pre';
+          vscode.postMessage({
+            command: 'wrapChanged',
+            wrap: e.target.checked
+          });
         });
 
         themeSelect.addEventListener('change', (e) => {
@@ -142,6 +155,8 @@ function getWebviewContent(content, theme) {
 
         // initial theme
         themeSelect.value = '${theme}';
+        wrapToggle.checked = ${wrap};
+        codeElement.style.whiteSpace = "${wrap ? 'pre-wrap' : 'pre'}";
       </script>
     </body>
     </html>`;
