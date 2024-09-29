@@ -2,7 +2,7 @@
   "name": "pretty-json",
   "displayName": "pretty-json",
   "description": "Instant JSON Prettifier",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.60.0"
   },

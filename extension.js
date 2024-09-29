@@ -97,13 +97,21 @@ function getWebviewContent(content, theme) {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${theme}.min.css">
     <style>
     .hljs, .hljs code { background: transparent !important; }
+    .hljs { counter-reset: line; }
+    .line-number { counter-increment: line; width: 2em; display: inline-block; text-align: right;
+      padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.2); border-right: 1px solid rgba(128, 128, 128, 0.2); }
     .toolbar { padding: 5px; background-color: rgba(128, 128, 128, 0.2); backdrop-filter: blur(5px); }
     .button { padding-right: 10px; padding-left: 10px; }
     #wrap-toggle { margin-right: 10px; }
+    .unselectable {
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10 and IE 11 */
+      user-select: none; /* Standard syntax */
+    }
     </style>
     </head>
     <body>
-      <div class="toolbar">
+      <div class="toolbar unselectable">
         <label class='button'><input type="checkbox" id="wrap-toggle" /> Wrap Text</label>
         <label class='button'>Theme <select id="theme-select">
           ${themeHtml}
@@ -140,7 +148,11 @@ function getWebviewContent(content, theme) {
 }
 
 function highlightJson(code) {
-  return hljs.highlight(code, { language: 'json' }).value;
+  let highlightedCode = hljs.highlight(code, { language: 'json' }).value;
+  const lines = highlightedCode.split('\n');
+  return lines.map((line, index) => 
+    `<span class="line-number unselectable">${index + 1}</span>${line}`
+  ).join('\n');
 }
 
 function getThemesHtml() {
