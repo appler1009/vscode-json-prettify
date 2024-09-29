@@ -11,6 +11,7 @@ hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
 // Your extension is activated the very first time the command is executed
 
 let panel;
+let theme = 'default';
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -18,8 +19,8 @@ let panel;
 function activate(context) {
   const disposable = vscode.commands.registerCommand('extension.prettifyJSON', function () {
     // The code you place here will be executed every time your command is executed
-    panel = createWebviewPanel();
-    updatePrettifiedJSON();
+    panel = createWebviewPanel(context);
+    updatePrettifiedJSON(context);
 
     // Display a message box to the user
     // vscode.window.showInformationMessage('Hello World from pretty-json!');
@@ -29,14 +30,14 @@ function activate(context) {
 
   // listen to the selection change event
   vscode.window.onDidChangeTextEditorSelection((event) => {
-    updatePrettifiedJSON();
+    updatePrettifiedJSON(context);
   }, null, context.subscriptions);
 }
 
 // This method is called when your extension is deactivated
 function deactivate() { }
 
-function updatePrettifiedJSON() {
+function updatePrettifiedJSON(context) {
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     const selection = editor.selection;
@@ -47,23 +48,42 @@ function updatePrettifiedJSON() {
       const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
 
       if (!panel) {
-        panel = createWebviewPanel();
+        panel = createWebviewPanel(context);
       }
 
-      panel.webview.html = getWebviewContent(prettifiedJSON);
+      panel.webview.html = getWebviewContent(prettifiedJSON, theme);
     } catch {
       // ignore invalid JSON
     }
   }
 }
 
-function createWebviewPanel() {
-  return vscode.window.createWebviewPanel(
+function createWebviewPanel(context) {
+  let panel = vscode.window.createWebviewPanel(
     'prettifiedJSON',
     'Prettified JSON',
     vscode.ViewColumn.Beside,
-    {}
+    {
+      enableScripts: true
+    }
   );
+
+  panel.webview.onDidReceiveMessage(
+    message => {
+      switch (message.command) {
+        case 'themeChanged':
+          theme = message.theme;
+          break;
+        case 'logMessage':
+          console.log(message.text);
+          break;
+      }
+    },
+    undefined,
+    context.subscriptions
+  );
+
+  return panel;
 }
 
 function getWebviewContent(content, theme) {
@@ -83,13 +103,38 @@ function getWebviewContent(content, theme) {
     </style>
     </head>
     <body>
-        <div class="toolbar">
-            <label class='button'><input type="checkbox" id="wrap-toggle"> Wrap Text</label>
-            <label class='button'>Theme <select id="theme-select">
-                ${themeHtml}
-            </select></label>
-        </div>
-    <pre><code class=hljs>${highlightJson(content)}</code></pre>
+      <div class="toolbar">
+        <label class='button'><input type="checkbox" id="wrap-toggle" /> Wrap Text</label>
+        <label class='button'>Theme <select id="theme-select">
+          ${themeHtml}
+        </select></label>
+      </div>
+      <pre><code id="json-code" class=hljs>${highlightJson(content)}</code></pre>
+      <script>
+        const vscode = acquireVsCodeApi();
+        const codeElement = document.getElementById('json-code');
+        const wrapToggle = document.getElementById('wrap-toggle');
+        const themeSelect = document.getElementById('theme-select');
+
+        wrapToggle.addEventListener('change', (e) => {
+          codeElement.style.whiteSpace = e.target.checked ? 'pre-wrap' : 'pre';
+        });
+
+        themeSelect.addEventListener('change', (e) => {
+          const theme = e.target.value;
+          const link = document.querySelector('link[rel="stylesheet"]');
+          link.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/"+theme+".min.css";
+
+          // send message to the mothership
+          vscode.postMessage({
+            command: 'themeChanged',
+            theme: theme
+          });
+        });
+
+        // initial theme
+        themeSelect.value = '${theme}';
+      </script>
     </body>
     </html>`;
 }
@@ -99,8 +144,8 @@ function highlightJson(code) {
 }
 
 function getThemesHtml() {
-  let themeHtml = `<option value="default">Default</option>
-  <option disabled> ────────── </option>
+  let themeHtml = `<option value="default">default</option>
+  <option disabled> ─────── </option>
   `;
   getThemes().forEach((aTheme) => {
     if (aTheme === 'default') {
