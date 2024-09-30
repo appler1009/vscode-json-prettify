@@ -133,11 +133,8 @@ function getWebviewContent(content) {
           padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.5); border-right: 1px solid rgba(128, 128, 128, 0.4); }
         .toolbar { padding: 5px; background-color: rgba(128, 128, 128, 0.2); backdrop-filter: blur(5px); }
         .button { padding-right: 10px; padding-left: 10px; }
-        .unselectable {
-          -webkit-user-select: none; /* Safari */
-          -ms-user-select: none; /* IE 10 and IE 11 */
-          user-select: none; /* Standard syntax */
-        }
+        .unselectable, #bmc-wbtn { -webkit-user-select: none; user-select: none; }
+        pre { padding: 0; margin: 0; }
       </style>
     </head>
     <body>
