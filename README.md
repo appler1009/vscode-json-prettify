@@ -45,9 +45,9 @@ This extension is licensed under the [MIT License](LICENSE).
 
 ## Release Notes
 
-### 0.0.9
+### 0.0.12
 
-- Sticky JSON
+- Friendly with escaped JSON strings
 
 ---
 

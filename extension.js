@@ -45,6 +45,12 @@ function activate(context) {
 // This method is called when your extension is deactivated
 function deactivate() { }
 
+const JSON_PREPROCESSORS = [
+  (input) => input,
+  (input) => input.trim(),
+  (input) => input.replace(/\\"/g, '"'),
+];
+
 function updatePrettifiedJSON(context) {
   const editor = vscode.window.activeTextEditor;
   if (editor) {
@@ -55,15 +61,21 @@ function updatePrettifiedJSON(context) {
       panel = createWebviewPanel(context);
     }
 
-    try {
-      const jsonObject = JSON.parse(text.trim());
-      const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
-      if (sticky) {
-        latestJson = prettifiedJSON;
-      }
+    let done = false;
+    for (const preproc of JSON_PREPROCESSORS) {
+      try {
+        const jsonObject = JSON.parse(preproc(text));
+        const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
+        if (sticky) {
+          latestJson = prettifiedJSON;
+        }
 
-      panel.webview.html = getWebviewContent(prettifiedJSON);
-    } catch {
+        panel.webview.html = getWebviewContent(prettifiedJSON);
+        done = true;  // job done
+        break;
+      } catch { /* ignore */ }
+    }
+    if (!done) {
       if (!sticky) {
         latestJson = undefined;
       }

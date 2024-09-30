@@ -1,3 +1,8 @@
+### 0.0.12
+
+- Friendly with escaped JSON strings
+
+
 ### 0.0.9
 
 - Sticky JSON
