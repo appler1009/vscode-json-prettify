@@ -74,8 +74,8 @@ function updatePrettifiedJSON(context) {
 
 function createWebviewPanel(context) {
   let panel = vscode.window.createWebviewPanel(
-    'prettyJSON',
-    'Pretty JSON',
+    'prettyJsonPreview',
+    'Pretty JSON Preview',
     vscode.ViewColumn.Beside,
     {
       enableScripts: true
@@ -124,7 +124,7 @@ function getWebviewContent(content) {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Pretty JSON</title>
+      <title>Pretty JSON Preview</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${theme}.min.css">
       <style>
         .hljs, .hljs code { background: transparent !important; }
