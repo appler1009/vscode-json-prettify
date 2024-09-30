@@ -40,6 +40,9 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Show PWD
+      run: pwd
+
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
