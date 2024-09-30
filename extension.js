@@ -47,17 +47,17 @@ function updatePrettifiedJSON(context) {
     const selection = editor.selection;
     const text = editor.document.getText(selection);
 
+    if (!panel) {
+      panel = createWebviewPanel(context);
+    }
+
     try {
       const jsonObject = JSON.parse(text.trim());
       const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
 
-      if (!panel) {
-        panel = createWebviewPanel(context);
-      }
-
-      panel.webview.html = getWebviewContent(prettifiedJSON, theme);
+      panel.webview.html = getWebviewContent(prettifiedJSON);
     } catch {
-      // ignore invalid JSON
+      panel.webview.html = getWebviewContent('');
     }
   }
 }
@@ -95,7 +95,7 @@ function createWebviewPanel(context) {
   return panel;
 }
 
-function getWebviewContent(content, theme) {
+function getWebviewContent(content) {
   const themeHtml = getThemesHtml();
   return `<!DOCTYPE html>
     <html>
@@ -108,10 +108,9 @@ function getWebviewContent(content, theme) {
     .hljs, .hljs code { background: transparent !important; }
     .hljs { counter-reset: line; }
     .line-number { counter-increment: line; width: 2em; display: inline-block; text-align: right;
-      padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.2); border-right: 1px solid rgba(128, 128, 128, 0.2); }
+      padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.5); border-right: 1px solid rgba(128, 128, 128, 0.4); }
     .toolbar { padding: 5px; background-color: rgba(128, 128, 128, 0.2); backdrop-filter: blur(5px); }
     .button { padding-right: 10px; padding-left: 10px; }
-    #wrap-toggle { margin-right: 10px; }
     .unselectable {
       -webkit-user-select: none; /* Safari */
       -ms-user-select: none; /* IE 10 and IE 11 */
@@ -163,7 +162,7 @@ function getWebviewContent(content, theme) {
 }
 
 function highlightJson(code) {
-  let highlightedCode = hljs.highlight(code, { language: 'json' }).value;
+  const highlightedCode = hljs.highlight(code, { language: 'json' }).value;
   const lines = highlightedCode.split('\n');
   return lines.map((line, index) => 
     `<span class="line-number unselectable">${index + 1}</span>${line}`
