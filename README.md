@@ -8,7 +8,6 @@ Pretty JSON is a Visual Studio Code extension that formats and beautifies JSON i
 - Real-time updates as you select different JSON text
 - Syntax highlighting for better readability
 - Supports nested JSON structures
-- Works with single-line and multi-line JSON selections
 
 ## Usage
 
@@ -20,14 +19,14 @@ Pretty JSON is a Visual Studio Code extension that formats and beautifies JSON i
 
 1. Open Visual Studio Code
 2. Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X on macOS)
-3. Search for "Pretty JSON"
+3. Search for "Pretty JSON Preview"
 4. Click Install
 
 Alternatively, you can download the .vsix file from the releases page and install it manually.
 
 ## Requirements
 
-This extension requires Visual Studio Code version 1.93.0 or higher.
+This extension requires Visual Studio Code version 1.60.0 or higher.
 
 ## Known Issues
 
