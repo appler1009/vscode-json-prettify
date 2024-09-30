@@ -16,6 +16,7 @@ let theme;
 let wrap;
 let sticky;
 let latestJson;
+let showBMC = false;
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -24,6 +25,10 @@ function activate(context) {
   theme = context.globalState.get(GLOBAL_STATE_THEME, 'default');
   wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
   sticky = context.globalState.get(GLOBAL_STATE_STICKY_TOGGLE, true);
+
+  if (Math.random() < 0.6) {
+    showBMC = true;
+  }
 
   const disposable = vscode.commands.registerCommand('prettyJsonPreview.open', function () {
     // The code you place here will be executed every time your command is executed
@@ -130,6 +135,12 @@ function getWebviewContent(content) {
       content = '';
     }
   }
+  let bmc = `<!-- https://buymeacoffee.com/applerk -->`
+  if (showBMC) {
+    bmc = `<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="applerk" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right"
+        data-x_margin="18" data-y_margin="18"></script>`;
+  }
   const themeHtml = getThemesHtml();
   return `<!DOCTYPE html>
     <html>
@@ -199,9 +210,7 @@ function getWebviewContent(content) {
         codeElement.style.whiteSpace = "${wrap ? 'pre-wrap' : 'pre'}";
       </script>
 
-      <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-        data-id="applerk" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right"
-        data-x_margin="18" data-y_margin="18"></script>
+      ${bmc}
     </body>
     </html>`;
 }
