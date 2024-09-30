@@ -45,6 +45,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 If you enjoy this extension and find it helpful, consider supporting through [Buy Me a Coffee](https://buymeacoffee.com/applerk). Your contributions help me continue to improve this project and create more valuable tools for the community. Every "coffee" you buy goes a long way in motivating me to keep developing and sharing my passion for software. Thank you for your support!
 
+## Acknowledgements
+
+- The icon from [Json Vectors by Vecteezy](https://www.vecteezy.com/free-vector/json)
+
+
 ## License
 
 This extension is licensed under the [MIT License](LICENSE).

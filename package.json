@@ -4,6 +4,7 @@
   "description": "Instant JSON Prettifier and Previewer",
   "version": "0.0.17",
   "publisher": "Appler",
+  "icon": "resources/icon.png",
   "engines": {
     "vscode": "^1.60.0"
   },
