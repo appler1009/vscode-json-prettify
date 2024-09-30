@@ -1,3 +1,10 @@
+### 0.0.8
+
+- Added buy me a coffee button
+- Wrap toggle
+- Theme selector
+
+
 ### 0.0.1
 
 Initial release of Pretty JSON

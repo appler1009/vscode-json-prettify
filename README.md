@@ -38,19 +38,19 @@ This extension requires Visual Studio Code version 1.93.0 or higher.
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+If you enjoy this extension and find it helpful, consider supporting through [Buy Me a Coffee](https://buymeacoffee.com/applerk). Your contributions help me continue to improve this project and create more valuable tools for the community. Every "coffee" you buy goes a long way in motivating me to keep developing and sharing my passion for software. Thank you for your support!
+
 ## License
 
 This extension is licensed under the [MIT License](LICENSE).
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.8
 
-Initial release of Pretty JSON
-
-- Shows prettified JSON in a separate panel
-- Implement real-time updates on selection change
-- Add syntax highlighting for prettified JSON
+- Added buy me a coffee button
+- Wrap toggle
+- Theme selector
 
 ---
 

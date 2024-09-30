@@ -100,23 +100,23 @@ function getWebviewContent(content) {
   return `<!DOCTYPE html>
     <html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pretty JSON</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${theme}.min.css">
-    <style>
-    .hljs, .hljs code { background: transparent !important; }
-    .hljs { counter-reset: line; }
-    .line-number { counter-increment: line; width: 2em; display: inline-block; text-align: right;
-      padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.5); border-right: 1px solid rgba(128, 128, 128, 0.4); }
-    .toolbar { padding: 5px; background-color: rgba(128, 128, 128, 0.2); backdrop-filter: blur(5px); }
-    .button { padding-right: 10px; padding-left: 10px; }
-    .unselectable {
-      -webkit-user-select: none; /* Safari */
-      -ms-user-select: none; /* IE 10 and IE 11 */
-      user-select: none; /* Standard syntax */
-    }
-    </style>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Pretty JSON</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/${theme}.min.css">
+      <style>
+        .hljs, .hljs code { background: transparent !important; }
+        .hljs { counter-reset: line; }
+        .line-number { counter-increment: line; width: 2em; display: inline-block; text-align: right;
+          padding-right: 0.5em; margin-right: 0.5em; color: rgba(128, 128, 128, 0.5); border-right: 1px solid rgba(128, 128, 128, 0.4); }
+        .toolbar { padding: 5px; background-color: rgba(128, 128, 128, 0.2); backdrop-filter: blur(5px); }
+        .button { padding-right: 10px; padding-left: 10px; }
+        .unselectable {
+          -webkit-user-select: none; /* Safari */
+          -ms-user-select: none; /* IE 10 and IE 11 */
+          user-select: none; /* Standard syntax */
+        }
+      </style>
     </head>
     <body>
       <div class="toolbar unselectable">
@@ -157,6 +157,10 @@ function getWebviewContent(content) {
         wrapToggle.checked = ${wrap};
         codeElement.style.whiteSpace = "${wrap ? 'pre-wrap' : 'pre'}";
       </script>
+
+      <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="applerk" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right"
+        data-x_margin="18" data-y_margin="18"></script>
     </body>
     </html>`;
 }
