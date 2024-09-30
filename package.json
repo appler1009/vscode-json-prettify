@@ -2,7 +2,7 @@
   "name": "pretty-json-preview",
   "displayName": "Pretty JSON Preview",
   "description": "Instant JSON Prettifier and Previewer",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "publisher": "Appler",
   "icon": "resources/icon.png",
   "engines": {
