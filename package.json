@@ -1,5 +1,5 @@
 {
-  "name": "pretty-json",
+  "name": "pretty-json-preview",
   "displayName": "Pretty JSON Preview",
   "description": "Instant JSON Prettifier and Previewer",
   "version": "0.0.15",
