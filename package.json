@@ -26,7 +26,8 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "npm version patch -m \"version %s\" && npm install && vsce package"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.7",
