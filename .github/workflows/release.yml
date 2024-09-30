@@ -18,6 +18,9 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Print Working Directory
+      run: pwd
+
     - name: Install dependencies
       run: npm ci
 
@@ -40,15 +43,12 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Show PWD
-      run: pwd
-
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./**/*.vsix
+        asset_path: ./
         asset_name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.vsix
         asset_content_type: application/octet-stream
