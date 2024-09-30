@@ -1,6 +1,6 @@
-# Prettify JSON
+# Pretty JSON
 
-Prettify JSON is a Visual Studio Code extension that formats and beautifies JSON in a separate panel. It provides an easy way to visualize and work with JSON data within your editor.
+Pretty JSON is a Visual Studio Code extension that formats and beautifies JSON in a separate panel. It provides an easy way to visualize and work with JSON data within your editor.
 
 ## Features
 
@@ -20,7 +20,7 @@ Prettify JSON is a Visual Studio Code extension that formats and beautifies JSON
 
 1. Open Visual Studio Code
 2. Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X on macOS)
-3. Search for "Prettify JSON"
+3. Search for "Pretty JSON"
 4. Click Install
 
 Alternatively, you can download the .vsix file from the releases page and install it manually.
@@ -46,7 +46,7 @@ This extension is licensed under the [MIT License](LICENSE).
 
 ### 0.0.1
 
-Initial release of Prettify JSON
+Initial release of Pretty JSON
 
 - Shows prettified JSON in a separate panel
 - Implement real-time updates on selection change

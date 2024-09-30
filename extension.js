@@ -21,7 +21,7 @@ function activate(context) {
   theme = context.globalState.get(GLOBAL_STATE_THEME, 'default');
   wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
 
-  const disposable = vscode.commands.registerCommand('extension.prettifyJSON', function () {
+  const disposable = vscode.commands.registerCommand('extension.prettyJSON', function () {
     // The code you place here will be executed every time your command is executed
     panel = createWebviewPanel(context);
     updatePrettifiedJSON(context);

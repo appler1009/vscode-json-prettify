@@ -1,8 +1,8 @@
 {
   "name": "pretty-json",
-  "displayName": "pretty-json",
-  "description": "Instant JSON Prettifier",
-  "version": "0.0.5",
+  "displayName": "Pretty JSON",
+  "description": "Instant JSON Prettifier and Preview",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -18,8 +18,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.prettifyJSON",
-        "title": "Prettify JSON"
+        "command": "extension.prettyJSON",
+        "title": "Pretty JSON"
       }
     ]
   },
