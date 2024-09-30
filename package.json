@@ -1,8 +1,8 @@
 {
   "name": "pretty-json",
-  "displayName": "Pretty JSON",
+  "displayName": "Pretty JSON Preview",
   "description": "Instant JSON Prettifier and Previewer",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -18,8 +18,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.prettyJSON",
-        "title": "Pretty JSON"
+        "command": "prettyJsonPreview.Open",
+        "title": "Pretty JSON Preview: Open"
       }
     ]
   },
