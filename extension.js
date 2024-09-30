@@ -25,7 +25,7 @@ function activate(context) {
   wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
   sticky = context.globalState.get(GLOBAL_STATE_STICKY_TOGGLE, true);
 
-  const disposable = vscode.commands.registerCommand('extension.prettyJSON', function () {
+  const disposable = vscode.commands.registerCommand('prettyJsonPreview.open', function () {
     // The code you place here will be executed every time your command is executed
     panel = createWebviewPanel(context);
     updatePrettifiedJSON(context);

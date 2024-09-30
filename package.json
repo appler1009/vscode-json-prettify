@@ -18,7 +18,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "prettyJsonPreview.Open",
+        "command": "prettyJsonPreview.open",
         "title": "Pretty JSON Preview: Open"
       }
     ]
