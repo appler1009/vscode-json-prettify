@@ -53,6 +53,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{ env.GITHUB_WORKSPACE }}/*.vsix
+        asset_path: $PWD/*.vsix
         asset_name: ${{ steps.package-name.outputs.name }}-${{ steps.get_version.outputs.VERSION }}.vsix
         asset_content_type: application/octet-stream
