@@ -46,11 +46,9 @@ This extension is licensed under the [MIT License](LICENSE).
 
 ## Release Notes
 
-### 0.0.8
+### 0.0.9
 
-- Added buy me a coffee button
-- Wrap toggle
-- Theme selector
+- Sticky JSON
 
 ---
 

@@ -8,11 +8,14 @@ const hljs = require('highlight.js/lib/core');
 hljs.registerLanguage('json', require('highlight.js/lib/languages/json'));
 
 const GLOBAL_STATE_WRAP_TOGGLE = 'wrap-toggle';
+const GLOBAL_STATE_STICKY_TOGGLE = 'sticky-toggle';
 const GLOBAL_STATE_THEME = 'theme';
 
 let panel;
 let theme;
 let wrap;
+let sticky;
+let latestJson;
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -20,6 +23,7 @@ let wrap;
 function activate(context) {
   theme = context.globalState.get(GLOBAL_STATE_THEME, 'default');
   wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
+  sticky = context.globalState.get(GLOBAL_STATE_STICKY_TOGGLE, true);
 
   const disposable = vscode.commands.registerCommand('extension.prettyJSON', function () {
     // The code you place here will be executed every time your command is executed
@@ -54,10 +58,16 @@ function updatePrettifiedJSON(context) {
     try {
       const jsonObject = JSON.parse(text.trim());
       const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
+      if (sticky) {
+        latestJson = prettifiedJSON;
+      }
 
       panel.webview.html = getWebviewContent(prettifiedJSON);
     } catch {
-      panel.webview.html = getWebviewContent('');
+      if (!sticky) {
+        latestJson = undefined;
+      }
+      panel.webview.html = getWebviewContent();
     }
   }
 }
@@ -83,6 +93,10 @@ function createWebviewPanel(context) {
           wrap = message.wrap;
           context.globalState.update(GLOBAL_STATE_WRAP_TOGGLE, wrap);
           break;
+        case 'stickyChanged':
+          sticky = message.sticky;
+          context.globalState.update(GLOBAL_STATE_STICKY_TOGGLE, sticky);
+          break;
         case 'logMessage':
           console.log(message.text);
           break;
@@ -96,6 +110,14 @@ function createWebviewPanel(context) {
 }
 
 function getWebviewContent(content) {
+  if (!content) {  // if selection is not a JSON
+    if (!!latestJson) {  // if there was a sticky content
+      content = latestJson;
+    }
+    else {
+      content = '';
+    }
+  }
   const themeHtml = getThemesHtml();
   return `<!DOCTYPE html>
     <html>
@@ -120,7 +142,8 @@ function getWebviewContent(content) {
     </head>
     <body>
       <div class="toolbar unselectable">
-        <label class='button'><input type="checkbox" id="wrap-toggle" /> Wrap Text</label>
+        <label class='button'><input type="checkbox" id="wrap-toggle" /> Wrap</label>
+        <label class='button'><input type="checkbox" id="sticky-toggle" /> Sticky</label>
         <label class='button'>Theme <select id="theme-select">
           ${themeHtml}
         </select></label>
@@ -130,6 +153,7 @@ function getWebviewContent(content) {
         const vscode = acquireVsCodeApi();
         const codeElement = document.getElementById('json-code');
         const wrapToggle = document.getElementById('wrap-toggle');
+        const stickyToggle = document.getElementById('sticky-toggle');
         const themeSelect = document.getElementById('theme-select');
 
         wrapToggle.addEventListener('change', (e) => {
@@ -137,6 +161,13 @@ function getWebviewContent(content) {
           vscode.postMessage({
             command: 'wrapChanged',
             wrap: e.target.checked
+          });
+        });
+
+        stickyToggle.addEventListener('change', (e) => {
+          vscode.postMessage({
+            command: 'stickyChanged',
+            sticky: e.target.checked
           });
         });
 
@@ -155,6 +186,7 @@ function getWebviewContent(content) {
         // initial theme
         themeSelect.value = '${theme}';
         wrapToggle.checked = ${wrap};
+        stickyToggle.checked = ${sticky};
         codeElement.style.whiteSpace = "${wrap ? 'pre-wrap' : 'pre'}";
       </script>
 

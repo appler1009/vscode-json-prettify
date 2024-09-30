@@ -1,3 +1,8 @@
+### 0.0.9
+
+- Sticky JSON
+
+
 ### 0.0.8
 
 - Added buy me a coffee button
