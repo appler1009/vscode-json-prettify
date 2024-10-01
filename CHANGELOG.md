@@ -1,6 +1,3 @@
-### 0.0.31
+### Updated Icon
 
-- Spring Cleaning
-  - GitHub Actions for Releases
-  - README Cleanup
-  - Marketplace Cleanup
+- It was awful on dark backgrounds
