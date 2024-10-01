@@ -1,13 +1,17 @@
 # Pretty JSON Preview
 
-Pretty JSON Preview is a Visual Studio Code extension that formats and beautifies JSON in a separate panel. It provides an easy way to visualize and work with JSON data within your editor.
+Select your JSON in the editor and instantly preview well formatted JSON in a side panel!
+
+No extra commands, no key combinations required!
+
+![Pretty JSON Preview Basic Features](resources/prettyJsonPreview1.gif)
 
 ## Features
 
 - Formats and prettifies JSON in a separate panel
 - Real-time updates as you select different JSON text
 - Syntax highlighting for better readability
-- Supports nested JSON structures
+- Supports escaped JSON string
 
 ## Usage
 
@@ -33,11 +37,6 @@ Alternatively, you can download the .vsix file from the releases page and instal
 ## Requirements
 
 This extension requires Visual Studio Code version 1.60.0 or higher.
-
-## Known Issues
-
-- The extension may not work correctly with extremely large JSON files (>10MB)
-- Invalid JSON selections will be ignored
 
 ## Contributing
 
