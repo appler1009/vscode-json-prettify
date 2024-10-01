@@ -2,7 +2,7 @@
   "name": "pretty-json-preview",
   "displayName": "Pretty JSON Preview",
   "description": "Instant JSON Prettifier and Previewer",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "publisher": "Appler",
   "icon": "resources/icon.png",
   "engines": {
@@ -12,7 +12,9 @@
     "type": "git",
     "url": "https://github.com/appler1009/vscode-json-prettify.git"
   },
-  "categories": [ "Formatters" ],
+  "categories": [
+    "Formatters"
+  ],
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
