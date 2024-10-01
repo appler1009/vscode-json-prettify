@@ -1,24 +1,6 @@
-### 0.0.12
+### 0.0.31
 
-- Friendly with escaped JSON strings
-
-
-### 0.0.9
-
-- Sticky JSON
-
-
-### 0.0.8
-
-- Added buy me a coffee button
-- Wrap toggle
-- Theme selector
-
-
-### 0.0.1
-
-Initial release of Pretty JSON
-
-- Shows prettified JSON in a separate panel
-- Implement real-time updates on selection change
-- Add syntax highlighting for prettified JSON
+- Spring Cleaning
+  - GitHub Actions for Releases
+  - README Cleanup
+  - Marketplace Cleanup

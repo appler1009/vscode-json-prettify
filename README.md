@@ -48,16 +48,13 @@ If you enjoy this extension and find it helpful, consider supporting through [Bu
 
 - The icon from [Json Vectors by Vecteezy](https://www.vecteezy.com/free-vector/json)
 
+## Releases and Notes
+
+[Releases and Notes](https://github.com/appler1009/vscode-json-prettify/releases)
 
 ## License
 
 This extension is licensed under the [MIT License](LICENSE).
-
-## Release Notes
-
-### 0.0.12
-
-- Friendly with escaped JSON strings
 
 ---
 
