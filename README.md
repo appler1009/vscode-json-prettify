@@ -46,7 +46,7 @@ If you enjoy this extension and find it helpful, consider supporting through [Bu
 
 ## Acknowledgements
 
-- The icon from [Json Vectors by Vecteezy](https://www.vecteezy.com/free-vector/json)
+- The icon from [Json icons created by LAB Design Studio - Flaticon](https://www.flaticon.com/free-icons/json)
 
 ## Releases and Notes
 
