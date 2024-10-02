@@ -72,10 +72,10 @@ function updatePrettifiedJSON(context) {
     let done = false;
     for (const preproc of JSON_PREPROCESSORS) {
       try {
-        const jsonObject = JSON.parse(preproc(text));
         if (!text.startsWith('{')) {
           continue;
         }
+        const jsonObject = JSON.parse(preproc(text));
         const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
         if (sticky) {
           latestJson = prettifiedJSON;
