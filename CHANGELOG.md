@@ -1,3 +1,4 @@
-### Updated Icon
+### Work Only on Objects
 
-- It was awful on dark backgrounds
+- Ignore primitive values.
+- Updated to a cleaner icon.
