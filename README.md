@@ -48,6 +48,10 @@ If you enjoy this extension and find it helpful, consider supporting through [Bu
 
 - The icon from [Json icons created by LAB Design Studio - Flaticon](https://www.flaticon.com/free-icons/json)
 
+### Pretty JSON Preview
+
+Don't miss out on my companion extension, [Pretty XML Preview](https://marketplace.visualstudio.com/items?itemName=appler.pretty-xml-preview). It's the perfect complement to this tool!
+
 ## Releases and Notes
 
 [Releases and Notes](https://github.com/appler1009/vscode-json-prettify/releases)
