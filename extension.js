@@ -52,7 +52,6 @@ function deactivate() { }
 
 const JSON_PREPROCESSORS = [
   (input) => input,
-  (input) => input.trim(),
   (input) => input.replace(/\\"/g, '"'),
 ];
 
@@ -60,7 +59,11 @@ function updatePrettifiedJSON(context) {
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     const selection = editor.selection;
-    const text = editor.document.getText(selection);
+    let textRaw = editor.document.getText(selection);
+    if (!textRaw) {
+      textRaw = '';
+    }
+    const text = textRaw.trim();
 
     if (!panel) {
       panel = createWebviewPanel(context);
@@ -70,6 +73,9 @@ function updatePrettifiedJSON(context) {
     for (const preproc of JSON_PREPROCESSORS) {
       try {
         const jsonObject = JSON.parse(preproc(text));
+        if (!text.startsWith('{')) {
+          continue;
+        }
         const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
         if (sticky) {
           latestJson = prettifiedJSON;
