@@ -15,9 +15,11 @@ No extra commands, no key combinations required!
 
 ## Usage
 
-1. Select a JSON text in your active editor
-2. The selected JSON will automatically be prettified in the side panel
-3. As you change your selection, the prettified JSON updates in real-time
+1. Open the Command Palette (Ctrl+Shift+P on Windows/Linux, Cmd+Shift+P on macOS)
+2. Type and find "Pretty JSON Preview: Open" command and select it to open the side panel
+3. Select a JSON text in your active editor
+4. The selected JSON will automatically be prettified in the side panel
+5. As you change your selection, the prettified JSON updates in real-time
 
 ### Toolbar
 
