@@ -9,7 +9,9 @@
     "format",
     "pretty",
     "preview",
-    "highlight"
+    "highlight",
+    "jsonl",
+    "line"
   ],
   "icon": "resources/icon.png",
   "engines": {
