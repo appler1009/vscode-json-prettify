@@ -31,12 +31,13 @@ function activate(context) {
   }
 
   const disposable = vscode.commands.registerCommand('prettyJsonPreview.open', function () {
-    // The code you place here will be executed every time your command is executed
-    panel = createWebviewPanel(context);
-    updatePrettifiedJSON(context);
-
-    // Display a message box to the user
-    // vscode.window.showInformationMessage('Hello World from pretty-json!');
+    if (panel) {
+      panel.reveal(vscode.ViewColumn.Beside);
+    }
+    else {
+      panel = createWebviewPanel(context);
+      updatePrettifiedJSON(context);
+    }
   });
 
   context.subscriptions.push(disposable);
@@ -96,7 +97,7 @@ function updatePrettifiedJSON(context) {
 }
 
 function createWebviewPanel(context) {
-  let panel = vscode.window.createWebviewPanel(
+  let newPanel = vscode.window.createWebviewPanel(
     'prettyJsonPreview',
     'Pretty JSON Preview',
     vscode.ViewColumn.Beside,
@@ -105,7 +106,15 @@ function createWebviewPanel(context) {
     }
   );
 
-  panel.webview.onDidReceiveMessage(
+  newPanel.onDidDispose(
+    () => {
+      panel = undefined;
+    },
+    null,
+    context.subscriptions
+  );
+
+  newPanel.webview.onDidReceiveMessage(
     message => {
       switch (message.command) {
         case 'themeChanged':
@@ -129,7 +138,7 @@ function createWebviewPanel(context) {
     context.subscriptions
   );
 
-  return panel;
+  return newPanel;
 }
 
 function getWebviewContent(content) {
