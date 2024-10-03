@@ -32,7 +32,7 @@ No extra commands, no key combinations required!
 3. Search for "Pretty JSON Preview"
 4. Click Install
 
-Alternatively, you can download the .vsix file from the releases page and install it manually.
+Alternatively, you can download the `.vsix` file from the releases page and install it manually.
 
 ## Requirements
 
