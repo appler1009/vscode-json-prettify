@@ -4,6 +4,8 @@ Select your JSON in the editor and instantly preview well formatted JSON in a si
 
 No extra commands, no key combinations required!
 
+> *Pretty JSON Preview extension never submits any information to any third-party websites or external APIs. All the formatting happens locally and on the fly.*
+
 ![Pretty JSON Preview Basic Features](resources/prettyJsonPreview1.gif)
 
 ## Features
@@ -44,15 +46,17 @@ This extension requires Visual Studio Code version 1.60.0 or higher which was re
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+Please create an issue on [Github](https://github.com/appler1009/vscode-json-prettify/issues) if you have any JSON documents that are not formatted as expected or if you experience any erratic behavior.
+
 If you enjoy this extension and find it helpful, consider supporting through [Buy Me a Coffee](https://buymeacoffee.com/applerk). Your contributions help me continue to improve this project and create more valuable tools for the community. Every "coffee" you buy goes a long way in motivating me to keep developing and sharing my passion for software. Thank you for your support!
 
 ## Acknowledgements
 
 - The icon from [Json icons created by LAB Design Studio - Flaticon](https://www.flaticon.com/free-icons/json)
 
-### Pretty JSON Preview
+### Pretty Previewers
 
-Don't miss out on my companion extension, [Pretty XML Preview](https://marketplace.visualstudio.com/items?itemName=appler.pretty-xml-preview). It's the perfect complement to this tool!
+Don't miss out on my companion extensions, [Pretty XML Preview](https://marketplace.visualstudio.com/items?itemName=appler.pretty-xml-preview) and [Pretty SQL Preview](https://marketplace.visualstudio.com/items?itemName=appler.pretty-sql-preview). They are the perfect complement to this tool!
 
 ## Releases and Notes
 
