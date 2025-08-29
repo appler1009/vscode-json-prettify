@@ -12,12 +12,14 @@ const defaultLogger = pino();
 
 const GLOBAL_STATE_WRAP_TOGGLE = 'wrap-toggle';
 const GLOBAL_STATE_STICKY_TOGGLE = 'sticky-toggle';
+const GLOBAL_STATE_SMART_TOGGLE = 'smart-toggle';
 const GLOBAL_STATE_THEME = 'theme';
 
 let panel;
 let theme;
 let wrap;
 let sticky;
+let smart;
 let latestJson;
 let showBMC = false;
 
@@ -28,6 +30,7 @@ function activate(context) {
   theme = context.globalState.get(GLOBAL_STATE_THEME, 'default');
   wrap = context.globalState.get(GLOBAL_STATE_WRAP_TOGGLE, false);
   sticky = context.globalState.get(GLOBAL_STATE_STICKY_TOGGLE, true);
+  smart = context.globalState.get(GLOBAL_STATE_SMART_TOGGLE, true);
 
   const disposable = vscode.commands.registerCommand('prettyJsonPreview.open', function () {
     if (panel) {
@@ -62,7 +65,13 @@ function updatePrettifiedJSON(context, searchKeyword = '', searchInputFocused = 
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     const selection = editor.selection;
+
     let textRaw = editor.document.getText(selection);
+    if (smart) {
+      if (selection.isEmpty) {
+        textRaw = editor.document.getText(editor.document.lineAt(selection.active.line).range);
+      }
+    }
     if (!textRaw) {
       textRaw = '';
     }
@@ -73,31 +82,62 @@ function updatePrettifiedJSON(context, searchKeyword = '', searchInputFocused = 
     }
 
     let done = false;
-    for (const preproc of JSON_PREPROCESSORS) {
-      try {
-        if (!text.startsWith('{')) {
-          continue;
-        }
-        const jsonObject = JSON.parse(preproc(text));
-        const prettifiedJSON = JSON.stringify(jsonObject, null, 2);
-        if (sticky) {
-          latestJson = prettifiedJSON;
-        }
 
-        panel.webview.html = getWebviewContent(prettifiedJSON, searchKeyword, searchInputFocused, searchInputSelectionStart, searchInputSelectionEnd);
-        done = true;  // job done
+    let indices = [] // indices of possible JSON start points to try
+    let end_indices = [] // JSON terminating indices to try
+    
+    if (smart && selection.isEmpty) {
+      // If this is a greedy selection, then try and locate any JSON starts which match  
+      for (var i=0; i<text.length;i++) {
+        if ( ["{", "["].includes(text[i]) ) indices.push(i);
+        if ( ["}", "]"].includes(text[i]) ) end_indices.push(i+1);
+      }
+      end_indices.reverse();
+    } else {
+      // Only allow the first first character
+      indices.push(0);
+    }
+
+    let resultJSON = undefined;
+    for (let i=0; i<indices.length;i++) {
+      // try the longest possible match first
+      resultJSON = tryJSONParse(text.substring(indices[i]))
+      if (resultJSON !== undefined) {
+        // successful result
         break;
+      }
+      // try parsing successive strings from possible terminators
+      for (let k=0; k < end_indices.length;k++) {
+        resultJSON = tryJSONParse(text.substring(indices[i], end_indices[k]))
+        if (resultJSON !== undefined) {
+          // successful result
+          break;
+        }
+      }
+      if (resultJSON !== undefined) {
+        // successful result
+        break;
+      }
+    }
+    
+    if (!sticky || resultJSON !== undefined) {
+      latestJson = resultJSON;
+    }
+
+    panel.webview.html = getWebviewContent(latestJson, searchKeyword, searchInputFocused, searchInputSelectionStart, searchInputSelectionEnd);
+}
+
+function tryJSONParse(textfragment) {
+  var done = false;
+  for (const preproc of JSON_PREPROCESSORS) {
+      try {
+        const jsonObject = JSON.parse(preproc(textfragment));
+        return JSON.stringify(jsonObject, null, 2);
+        
       } catch { /* ignore */ }
     }
-    if (!done) {
-      if (!sticky) {
-        latestJson = undefined;
-      }
-      panel.webview.html = getWebviewContent(undefined, searchKeyword, searchInputFocused, searchInputSelectionStart, searchInputSelectionEnd);
-    }
-  } else {
-    panel.webview.html = getWebviewContent(undefined, searchKeyword, searchInputFocused, searchInputSelectionStart, searchInputSelectionEnd);
   }
+  return undefined;
 }
 
 function createWebviewPanel(context) {
@@ -134,6 +174,10 @@ function createWebviewPanel(context) {
         case 'stickyChanged':
           sticky = message.sticky;
           context.globalState.update(GLOBAL_STATE_STICKY_TOGGLE, sticky);
+          break;
+        case 'smartChanged':
+          smart = message.smart;
+          context.globalState.update(GLOBAL_STATE_SMART_TOGGLE, smart);
           break;
         case 'logMessage':
           defaultLogger.log(message.text);
@@ -190,6 +234,7 @@ function getWebviewContent(content, searchKeyword = '', searchInputFocused, sear
       <div class="toolbar unselectable">
         <label class='button'><input type="checkbox" id="wrap-toggle" /> Wrap</label>
         <label class='button'><input type="checkbox" id="sticky-toggle" /> Sticky</label>
+        <label class='button'><input type="checkbox" id="smart-toggle" /> Smart</label>
         <label class='button'>Theme <select id="theme-select">
           ${themeHtml}
         </select></label>
@@ -201,6 +246,7 @@ function getWebviewContent(content, searchKeyword = '', searchInputFocused, sear
         const codeElement = document.getElementById('json-code');
         const wrapToggle = document.getElementById('wrap-toggle');
         const stickyToggle = document.getElementById('sticky-toggle');
+        const smartToggle = document.getElementById('smart-toggle');
         const themeSelect = document.getElementById('theme-select');
         const searchInput = document.getElementById('search-input');
 
@@ -216,6 +262,13 @@ function getWebviewContent(content, searchKeyword = '', searchInputFocused, sear
           vscode.postMessage({
             command: 'stickyChanged',
             sticky: e.target.checked
+          });
+        });
+
+        smartToggle.addEventListener('change', (e) => {
+          vscode.postMessage({
+            command: 'smartChanged',
+            smart: e.target.checked
           });
         });
 
@@ -295,6 +348,7 @@ function getWebviewContent(content, searchKeyword = '', searchInputFocused, sear
         themeSelect.value = '${theme}';
         wrapToggle.checked = ${wrap};
         stickyToggle.checked = ${sticky};
+        smartToggle.checked = ${smart};
         codeElement.style.whiteSpace = "${wrap ? 'pre-wrap' : 'pre'}";
       </script>
 
